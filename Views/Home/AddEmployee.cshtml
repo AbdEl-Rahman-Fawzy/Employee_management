@@ -1,0 +1,83 @@
+﻿@model edu.Models.Employee
+
+@{
+    ViewData["Title"] = "Add New Employee";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>@ViewData["Title"]</h1>
+        <form method="post" action="/Employee/AddEmployee">
+            <div class="mb-3">
+                <label for="FirstName" class="form-label">First Name</label>
+                <input type="text" class="form-control" name="FirstName" required />
+            </div>
+            <div class="mb-3">
+                <label for="LastName" class="form-label">Last Name</label>
+                <input type="text" class="form-control" name="LastName" required />
+            </div>
+            <div class="mb-3">
+                <label for="EmployeeID" class="form-label">Employee ID</label>
+                <input type="number" class="form-control" name="EmployeeID" required />
+            </div>
+            <div class="mb-3">
+                <label for="Designation" class="form-label">Designation</label>
+                <input type="text" class="form-control" name="Designation" required />
+            </div>
+
+            <div class="mb-3" id="languagesContainer">
+                <label class="form-label">Languages Known (with Scores)</label>
+
+                <div class="language-row mb-2">
+                    <input type="text" class="form-control" name="Languages[0].LanguageName" placeholder="Language Name" required />
+                    <input type="number" class="form-control mt-2" name="Languages[0].ScoreOutof100" placeholder="Score (0-100)" required />
+                </div>
+
+                <button type="button" class="btn btn-secondary" id="addLanguageBtn">Add Another Language</button>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Employee</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('addLanguageBtn').addEventListener('click', function () {
+            const languagesContainer = document.getElementById('languagesContainer');
+            const languageCount = languagesContainer.getElementsByClassName('language-row').length;
+
+            const newLanguageRow = document.createElement('div');
+            newLanguageRow.classList.add('language-row', 'mb-2');
+
+            const newLanguageInput = document.createElement('input');
+            newLanguageInput.type = 'text';
+            newLanguageInput.classList.add('form-control');
+            newLanguageInput.name = `Languages[${languageCount}].LanguageName`;
+            newLanguageInput.placeholder = 'Language Name';
+            newLanguageInput.required = true;
+
+            const newScoreInput = document.createElement('input');
+            newScoreInput.type = 'number';
+            newScoreInput.classList.add('form-control', 'mt-2');
+            newScoreInput.name = `Languages[${languageCount}].ScoreOutof100`;
+            newScoreInput.placeholder = 'Score (0-100)';
+            newScoreInput.required = true;
+
+            newLanguageRow.appendChild(newLanguageInput);
+            newLanguageRow.appendChild(newScoreInput);
+
+            languagesContainer.insertBefore(newLanguageRow, this);
+        });
+    </script>
+</body>
+
+</html>
